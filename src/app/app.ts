@@ -72,8 +72,10 @@ export class App implements OnInit {
     if (newTodo)
       result = await this.createTodo(newTodo)
 
-    if (result)
+    if (result) {
+      this.theForm.reset();
       await this.getTodos();
+    }
   }
 
   async toggleStatus(idx: number) {
@@ -91,5 +93,9 @@ export class App implements OnInit {
     const result = await firstValueFrom(this.apiSvc.deleteTodos());
     if (result !== 0)
       await this.getTodos();
+  }
+
+  toggleTheme() {
+    console.log("placeholder");
   }
 }

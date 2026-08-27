@@ -1,44 +1,53 @@
 <div class="container-fluid">
-  <header>
-    <h1>Todo App</h1>
-    <button>Toggle Light/Dark</button>
+  <header class="row justify-content-between">
+    <h1 id="title" class="col-4 text-uppercase fw-semibold">Todo</h1>
+    <button class="btn col-4" (click)="toggleTheme()">
+      <img src="images/icon-sun.svg" />
+    </button>
   </header>
 
-  <main>
+  <main class="text-center">
     <form [formGroup]="theForm" (submit)="onSubmit($event)">
       <input type="text" formControlName="newTodo" />
       <button type="submit" style="display: none;"></button>
     </form>
 
-    <ul>
+    <ul class="list-group">
     @for (todo of todos().filter(filters[currFilter][1]); track todo.id; let idx = $index) {
-    <li>
-      @if (todo.completed) {
-      <p>completed!</p>
-      } @else {
-      <p>not completed</p>
-      }
-      <button (click)="toggleStatus(idx)">toggle complete</button>
-      <p>{{ todo.name }}</p>
-      <button (click)="deleteTodo(idx)">delete</button>
+    <li class="list-group-item">
+      <div class="row justify-content-between">
+        <button class="col-1" (click)="toggleStatus(idx)"></button>
+        <span class="col-4">{{ todo.name }}</span>
+        <button class="col-1 btn" (click)="deleteTodo(idx)">
+          <img src="images/icon-cross.svg" />
+        </button>
+      </div>
     </li>
     }
+    <li class="list-group-item">
+      <div class="row justify-content-between">
+        <span class="col-4 text-secondary">{{ todos().filter(x => !x.completed).length }} items left</span>
+        <a href="#" class="col-4 text-decoration-none link-secondary" (click)="clearCompleted()">Clear Completed</a>
+      </div>
+    </li>
     </ul>
 
-    <p>{{ todos().filter(x => !x.completed).length }} items left</p>
 
-    <ul>
+    <ul class="list-inline">
       @for (x of filters; track $index; let idx = $index) {
-      <li>
-        <a href="#" (click)="toggleFilter(idx)">{{ x[0] }}</a>
+      <li class="list-inline-item">
+        <a href="#" [class]="{
+          'text-decoration-none': true,
+          'link-primary': idx === currFilter,
+          'link-secondary': idx !== currFilter,
+          }" (click)="toggleFilter(idx)">{{ x[0] }}</a>
       </li>
       }
     </ul>
 
-    <a href="#" (click)="clearCompleted()">Clear Completed</a>
   </main>
 
-  <footer>
-    <p>placeholder</p>
+  <footer class="text-center">
+    <p>Drag and drop to reorder list</p>
   </footer>
 </div>
