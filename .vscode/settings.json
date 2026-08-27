@@ -1,0 +1,8 @@
+{
+  "terminal.integrated.env.linux": {
+    "NVM_DIR": "/home/ibrahim/.config/nvm",
+    "PATH": "/home/ibrahim/.config/nvm/versions/node/v24.19.0/bin:${env:PATH}"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
