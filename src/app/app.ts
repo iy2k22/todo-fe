@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, DOCUMENT } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ApiSvc } from './services/api-svc';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -16,9 +16,12 @@ export class App implements OnInit {
 
   apiSvc = inject(ApiSvc);
   fb = inject(FormBuilder);
+  document = inject(DOCUMENT);
 
   newTodo = new FormControl<string>("");
   todos = signal<Todo[]>([]);
+
+  isDark = false;
 
   filters: [string, (x: Todo) => boolean][] = [
     ['All', (x) => x.completed !== null],
@@ -33,6 +36,13 @@ export class App implements OnInit {
   });
 
   async ngOnInit() {
+    const isDark = localStorage.getItem("isDark");
+    if (isDark) {
+      const body = this.document.getElementsByTagName("body")[0];
+      this.isDark = JSON.parse(isDark);
+      body.setAttribute("data-bs-theme", this.isDark ? 'dark' : 'light');
+    }
+
     await this.getTodos();
   }
 
@@ -96,6 +106,10 @@ export class App implements OnInit {
   }
 
   toggleTheme() {
-    console.log("placeholder");
+    this.isDark = !this.isDark;
+
+    const body = this.document.getElementsByTagName("body")[0];
+    body.setAttribute("data-bs-theme", this.isDark ? 'dark' : 'light');
+    localStorage.setItem("isDark", JSON.stringify(this.isDark));
   }
 }

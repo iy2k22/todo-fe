@@ -1,41 +1,67 @@
-<div class="container-fluid">
-  <header class="row justify-content-between">
-    <h1 id="title" class="col-4 text-uppercase fw-semibold">Todo</h1>
-    <button class="btn col-4" (click)="toggleTheme()">
-      <img src="images/icon-sun.svg" />
+<div class="position-absolute top-0 left-0 z-n1" id="this-div" [class]="{
+  'position-absolute': true,
+  'top-0': true,
+  'left-0': true,
+  'z-n1': true,
+  'img-bg-light': !isDark,
+  'img-bg-dark': isDark
+  }"></div>
+<div class="px-4">
+  <header class="row justify-content-between py-4">
+    <h1 id="title" class="col-4 text-uppercase fw-semibold text-white">Todo</h1>
+    <button class="btn col-4 text-end" (click)="toggleTheme()">
+      <img [src]="'images/icon-' + (isDark ? 'sun' : 'moon') + '.svg'" />
     </button>
   </header>
 
   <main class="text-center">
     <form [formGroup]="theForm" (submit)="onSubmit($event)">
-      <input type="text" formControlName="newTodo" />
+      <input class="form-control border-0 bg-body-secondary shadow-lg" type="text" formControlName="newTodo" />
       <button type="submit" style="display: none;"></button>
     </form>
 
-    <ul class="list-group">
-    @for (todo of todos().filter(filters[currFilter][1]); track todo.id; let idx = $index) {
-    <li class="list-group-item">
-      <div class="row justify-content-between">
-        <button class="col-1" (click)="toggleStatus(idx)"></button>
-        <span class="col-4">{{ todo.name }}</span>
-        <button class="col-1 btn" (click)="deleteTodo(idx)">
-          <img src="images/icon-cross.svg" />
-        </button>
-      </div>
-    </li>
-    }
-    <li class="list-group-item">
-      <div class="row justify-content-between">
-        <span class="col-4 text-secondary">{{ todos().filter(x => !x.completed).length }} items left</span>
-        <a href="#" class="col-4 text-decoration-none link-secondary" (click)="clearCompleted()">Clear Completed</a>
-      </div>
-    </li>
+    <br />
+
+    <ul class="list-group shadow-lg">
+      @for (todo of todos().filter(filters[currFilter][1]); track todo.id; let idx = $index) {
+      <li class="list-group-item bg-body-secondary">
+        <div class="row justify-content-between p-2">
+          <button (click)="toggleStatus(idx)" [class]="{
+            'col-1': true,
+            'btn': true,
+            'border': true,
+            'rounded-circle': true,
+            'btn-primary': todo.completed
+            }">
+              @if (todo.completed) {
+              <img src="images/icon-check.svg" />
+              }
+            </button>
+            <span [class]="{
+              'col-9': true,
+              'text-secondary': todo.completed,
+              'text-decoration-line-through': todo.completed
+              }">{{ todo.name }}</span>
+            <button class="col-1 btn" (click)="deleteTodo(idx)">
+              <img src="images/icon-cross.svg" />
+            </button>
+        </div>
+      </li>
+      }
+      <li class="list-group-item bg-body-secondary">
+        <div class="row justify-content-between py-2">
+          <span class="col-4 text-secondary">{{ todos().filter(x => !x.completed).length }} items left</span>
+          <a href="#" class="col-4 text-decoration-none link-secondary" (click)="clearCompleted()">Clear Completed</a>
+        </div>
+      </li>
     </ul>
 
+    <br />
 
-    <ul class="list-inline">
+
+    <ul class="list-inline bg-body-secondary p-3 shadow-lg rounded">
       @for (x of filters; track $index; let idx = $index) {
-      <li class="list-inline-item">
+      <li class="list-inline-item mx-2">
         <a href="#" [class]="{
           'text-decoration-none': true,
           'link-primary': idx === currFilter,
@@ -47,7 +73,7 @@
 
   </main>
 
-  <footer class="text-center">
-    <p>Drag and drop to reorder list</p>
+  <footer class="text-center text-secondary">
+    <p>Drag and drop to reorder list (not implemented yet)</p>
   </footer>
 </div>
