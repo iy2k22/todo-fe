@@ -14,3 +14,21 @@
 .img-bg-light {
   background-image: url('../../public/images/bg-mobile-light.jpg');
 }
+
+.img-bg {
+  background-size: cover;
+}
+
+@media (min-width: 1024px) {
+  #container-div {
+    width: 50%;
+  }
+
+  .img-bg-dark {
+    background-image: url('../../public/images/bg-desktop-dark.jpg');
+  }
+
+  .img-bg-light {
+    background-image: url('../../public/images/bg-desktop-light.jpg');
+  }
+}
