@@ -17,7 +17,7 @@
 
   <main class="text-center">
     <form [formGroup]="theForm" (submit)="onSubmit($event)">
-      <input class="form-control border-0 bg-body-secondary shadow-lg" type="text" formControlName="newTodo" />
+      <input class="form-control border-0 bg-body-secondary shadow-lg p-3" type="text" formControlName="newTodo" />
       <button type="submit" style="display: none;"></button>
     </form>
 
@@ -27,17 +27,19 @@
       @for (todo of todos().filter(filters[currFilter][1]); track todo.id; let idx = $index) {
       <li class="list-group-item bg-body-secondary">
         <div class="row justify-content-between p-2">
-          <button (click)="toggleStatus(idx)" [class]="{
-            'col-1': true,
-            'btn': true,
-            'border': true,
-            'rounded-circle': true,
-            'btn-primary': todo.completed
-            }">
-              @if (todo.completed) {
-              <img src="images/icon-check.svg" />
-              }
-            </button>
+          <div class="col-1 m-0">
+            <button (click)="toggleStatus(idx)" [class]="{
+              'btn': true,
+              'border': true,
+              'rounded-circle': true,
+              'btn-grad': todo.completed,
+              'comp-btn': true
+              }">
+                @if (todo.completed) {
+                <img src="images/icon-check.svg" />
+                }
+              </button>
+          </div>
             <span [class]="{
               'col-9': true,
               'text-secondary': todo.completed,

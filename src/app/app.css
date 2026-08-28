@@ -32,3 +32,13 @@
     background-image: url('../../public/images/bg-desktop-light.jpg');
   }
 }
+
+.btn-grad, .comp-btn:hover {
+  background: #2A7B9B;
+  background: linear-gradient(135deg, rgba(42, 123, 155, 1) 0%, #ae00ff 100%);
+}
+
+.comp-btn {
+  width: var(--btn-size);
+  height: var(--btn-size);
+}
