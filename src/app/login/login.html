@@ -1,0 +1,31 @@
+<div class="mx-auto my-5 bg-black text-white w-25 p-5 shadow">
+  <h1 class="text-center">
+    <i class="fa-solid fa-right-to-bracket"></i>
+  </h1>
+
+  <form [formGroup]="theForm">
+      <label class="form-label p-0">Email</label>
+      <input type="email" formControlName="email" class="bg-black text-white border-0 border-bottom form-control" />
+
+      <br />
+
+      <label class="form-label p-0">Password</label>
+      <input type="password" class="form-control" formControlName="password" class="bg-black text-white border-0 border-bottom form-control" />
+
+    <br />
+
+    <div class="text-center">
+    <button class="btn btn-primary" (click)="login($event)">Submit</button>
+    </div>
+  </form>
+
+  @if (error()) {
+  <p class="text-danger">Error logging in</p>
+  }
+
+  <div class="row justify-content-between">
+  <a routerLink="/register" class="col-1">Register</a>
+  <app-theme-btn class="col-2" />
+  </div>
+
+</div>
