@@ -2,6 +2,7 @@ import { inject, Service } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Todo } from '../entities/todo';
 import { UserSvc } from './user-svc';
+import { TodoPos } from '../dtos/todo-pos';
 
 @Service()
 export class ApiSvc {
@@ -53,5 +54,11 @@ export class ApiSvc {
     return this.httpClient.delete<boolean>(`${this.baseUrl}/DeleteTodoById/${id}`, {
       headers: this.getHeaders()
     });
+  }
+
+  updatePositions(newPos: TodoPos[]) {
+    return this.httpClient.patch<boolean>(`${this.baseUrl}/UpdatePositions`, newPos, {
+      headers: this.getHeaders()
+    })
   }
 }

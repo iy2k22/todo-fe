@@ -8,10 +8,12 @@ import { AuthSvc } from '../services/auth-svc';
 import { UserSvc } from '../services/user-svc';
 import { ThemeBtn } from '../theme-btn/theme-btn';
 import { ThemeSvc } from '../services/theme-svc';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TodoPos } from '../dtos/todo-pos';
 
 @Component({
   selector: 'app-todos',
-  imports: [ReactiveFormsModule, ThemeBtn],
+  imports: [ReactiveFormsModule, ThemeBtn, CdkDropList, CdkDrag],
   templateUrl: './todos.html',
   styleUrl: './todos.css',
 })
@@ -40,7 +42,6 @@ export class Todos {
   });
 
   async ngOnInit() {
-
     await this.getTodos();
   }
 
@@ -59,8 +60,10 @@ export class Todos {
   async deleteTodo(idx: number) {
     const result = await firstValueFrom(this.apiSvc.deleteTodo(this.todos()[idx].id));
 
-    if (result)
+    if (result) {
       await this.getTodos();
+      await this.updatePos();
+    }
   }
 
   async createTodo(name: string) {
@@ -72,8 +75,9 @@ export class Todos {
       completed: false,
       created: date,
       updated: date,
-      userId: this.userSvc.getUserId()
-    }
+      userId: this.userSvc.getUserId(),
+      position: this.todos().length
+    };
 
     const result = await firstValueFrom(this.apiSvc.createTodo(toAdd));
     return result;
@@ -114,5 +118,25 @@ export class Todos {
   logout() {
     this.userSvc.logout();
     this.router.navigate(['/login']);
+  }
+
+  async drop(e: CdkDragDrop<Todo[]>) {
+    const todos = this.todos();
+    moveItemInArray(todos, e.previousIndex, e.currentIndex);
+    this.todos.set(todos);
+    await this.updatePos();
+  }
+
+  async updatePos() {
+    const pos: TodoPos[] = this.todos().map((x, i) => ({
+      id: x.id,
+      position: i
+    }));
+
+    try {
+      await firstValueFrom(this.apiSvc.updatePositions(pos));
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

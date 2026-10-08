@@ -5,4 +5,5 @@ export interface Todo {
   created: Date;
   updated: Date
   userId: string;
+  position: number;
 }

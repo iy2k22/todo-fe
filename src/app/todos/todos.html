@@ -24,9 +24,9 @@
 
     <br />
 
-    <ul class="list-group shadow-lg">
+    <ul class="list-group shadow-lg" cdkDropList (cdkDropListDropped)="drop($event)">
       @for (todo of todos().filter(filters[currFilter][1]); track todo.id; let idx = $index) {
-      <li class="list-group-item bg-body-secondary">
+      <li class="list-group-item bg-body-secondary" cdkDrag>
         <div class="row justify-content-between p-2">
           <div class="col-1 m-0">
             <button (click)="toggleStatus(idx)" [class]="{
